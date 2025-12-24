@@ -1,12 +1,9 @@
 name = "cloudflare"
-main = "worker.js"            # فایل Worker اصلی
+main = "worker.js"   # entry-point به فایل Worker
+account_id = "43f94cc4f3beadab0c778fdbb690feb0"
+workers_dev = true
 compatibility_date = "2025-12-24"
-#account_id = "43f94cc4f3beadab0c778fdbb690feb0"
-#workers_dev = true
 
-[site]
-bucket = "./site"             # مسیر پوشه site/ حاوی HTML و فونت و عکس
-
-# Secret Variable ها را در Dashboard اضافه کن
-# TELEGRAM_TOKEN
-# CHAT_ID
+[[kv_namespaces]]
+binding = "ASSETS"
+id = "YOUR_KV_NAMESPACE_ID"
