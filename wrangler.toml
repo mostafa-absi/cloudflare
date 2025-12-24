@@ -1,14 +1,12 @@
 name = "jibeman"
-main = "worker.js"          # فایل اصلی Worker
+main = "worker.js"
 compatibility_date = "2025-12-24"
 account_id = "YOUR_ACCOUNT_ID"
 workers_dev = true
-
-# برای سایت استاتیک
 type = "javascript"
-site = { 
-  bucket = "./site",        # مسیر پوشه site/
-  entry-point = "worker"    # نام Worker (optional)
-}
 
-# Secret Variable ها روی Dashboard اضافه کن
+[site]
+bucket = "./site"
+entry-point = "worker"
+
+# Secret Variable ها از Dashboard اضافه می‌شن
