@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>جیب من | مدیریت مالی شخصی</title>
+
+  <!-- SEO -->
+  <meta name="description" content="جیب من، ابزار مدیریت مالی شخصی برای کنترل هزینه‌ها و درآمدها" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0d6efd" />
+
+  <!-- Local Font -->
+  <style>
+    @font-face {
+      font-family: "Vazirmatn";
+      src: url("fonts/Vazir.woff2") format("woff2");
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Vazirmatn";
+      src: url("fonts/Vazir.woff2") format("woff2");
+      font-weight: 700;
+      font-display: swap;
+    }
+  </style>
+
+  <style>
+    :root {
+      --blue: #0d6efd;
+      --text: #1a1a1a;
+      --muted: #5f6f81;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: "Vazirmatn", system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg,#ffffff 0%,#eef4ff 45%,#dbe9ff 100%);
+    }
+
+    main {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      padding: 48px;
+      gap: 32px;
+    }
+
+    /* CONTENT */
+    .content {
+      max-width: 480px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .brand img {
+  height: clamp(56px, 5vw, 72px);
+  width: auto;
+  object-fit: contain;
+}
+
+
+    .brand span {
+      font-size: clamp(1.3rem, 2vw, 1.6rem);
+      font-weight: 900;
+      color: var(--blue);
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      line-height: 1.4;
+      margin-bottom: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .cta {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #cfe0ff;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    button {
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--blue);
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* VISUAL */
+    .visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+  .visual img {
+  width: 100%;
+  max-width: clamp(380px, 32vw, 480px);
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  background: transparent;
+}
+
+    /* MOBILE */
+   @media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;   
+    justify-items: center;        
+    align-items: center;          
+    text-align: center;
+    padding: 24px 16px;
+  }
+
+  .content {
+    max-width: 420px;            
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  .cta {
+    flex-direction: column;
+  }
+
+  .visual {
+    display: none;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="content">
+      <div class="brand">
+        <img src="pics/logo.svg" alt="جیب من" />
+        <span>جیب من</span>
+      </div>
+
+      <h1>
+        مدیریت مالی شخصی<br />
+      </h1>
+
+      <p>
+        درآمد و هزینه‌هات رو ثبت کن،
+        و کنترل کامل پولت رو به دست بگیر.<br>
+برای اطلاع از زمان شروع به کار اپلیکیشن ایمیل یا شماره همراه خودتون و وارد کنید
+      </p>
+
+      <div class="cta">
+        <input id="contact" placeholder="ایمیل یا شماره موبایل" />
+        <button id="submit">خبرم کن</button>
+      </div>
+    </section>
+
+    <section class="visual" aria-hidden="true">
+      <img src="pics/app-preview.png" alt="اپلیکیشن جیب من" />
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("submit").onclick = async () => {
+      const value = document.getElementById("contact").value.trim();
+      if (!value) return alert("ایمیل یا شماره را وارد کنید");
+
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        body: JSON.stringify({ value }),
+      });
+
+      alert(res.ok ? "ثبت شد 🚀" : "لطفاً کمی بعد تلاش کنید");
+    };
+  </script>
+</body>
+</html>
