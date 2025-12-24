@@ -1,12 +1,12 @@
 name = "jibeman"
-main = "worker.js"
+main = "worker.js"            # فایل Worker اصلی
 compatibility_date = "2025-12-24"
 account_id = "YOUR_ACCOUNT_ID"
 workers_dev = true
-type = "javascript"
 
 [site]
-bucket = "./site"
-entry-point = "worker"
+bucket = "./site"             # مسیر پوشه site/ حاوی HTML و فونت و عکس
 
-# Secret Variable ها از Dashboard اضافه می‌شن
+# Secret Variable ها را در Dashboard اضافه کن
+# TELEGRAM_TOKEN
+# CHAT_ID
