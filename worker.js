@@ -22,7 +22,6 @@ export default {
       return new Response("OK");
     }
 
-    // Serve فایل استاتیک
     const assetPath = ASSETS[url.pathname];
     if (assetPath) {
       const file = await fetch(new URL(assetPath, import.meta.url));

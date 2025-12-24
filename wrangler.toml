@@ -1,8 +1,8 @@
 name = "cloudflare"
 main = "worker.js"            # فایل Worker اصلی
 compatibility_date = "2025-12-24"
-account_id = "43f94cc4f3beadab0c778fdbb690feb0"
-workers_dev = true
+#account_id = "43f94cc4f3beadab0c778fdbb690feb0"
+#workers_dev = true
 
 [site]
 bucket = "./site"             # مسیر پوشه site/ حاوی HTML و فونت و عکس
