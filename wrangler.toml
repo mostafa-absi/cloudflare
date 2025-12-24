@@ -6,5 +6,4 @@ compatibility_date = "2025-12-24"
 
 [site]
 bucket = "./site"
-entry-point = "worker"
 
