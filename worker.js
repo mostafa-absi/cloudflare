@@ -1,4 +1,9 @@
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
+const ASSETS = {
+  "/": "index.html",
+  "/pics/logo.svg": "pics/logo.svg",
+  "/pics/app-preview.png": "pics/app-preview.png",
+  "/fonts/Vazir.woff2": "fonts/Vazir.woff2"
+};
 
 export default {
   async fetch(request, env) {
@@ -17,11 +22,13 @@ export default {
       return new Response("OK");
     }
 
-    // سرو فایل‌های استاتیک
-    try {
-      return await getAssetFromKV({ request });
-    } catch (e) {
-      return new Response("Not Found", { status: 404 });
+    // Serve فایل استاتیک
+    const assetPath = ASSETS[url.pathname];
+    if (assetPath) {
+      const file = await fetch(new URL(assetPath, import.meta.url));
+      return file;
     }
+
+    return new Response("Not Found", { status: 404 });
   }
 };
