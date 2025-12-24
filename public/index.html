@@ -186,10 +186,16 @@
         برای اطلاع از زمان شروع به کار اپلیکیشن ایمیل یا شماره همراه خودتون و وارد کنید
       </p>
 
-      <div class="cta">
-        <input id="contact" placeholder="ایمیل یا شماره موبایل" />
-        <button id="submit">خبرم کن</button>
-      </div>
+<div class="cta">
+  <input
+    id="contact"
+    placeholder="ایمیل یا شماره موبایل"
+    inputmode="email"
+    autocomplete="email"
+    maxlength="100"
+  />
+  <button id="submit">خبرم کن</button>
+</div>
     </section>
 
     <section class="visual" aria-hidden="true">
@@ -198,17 +204,65 @@
   </main>
 
   <script>
-    document.getElementById("submit").onclick = async () => {
-      const value = document.getElementById("contact").value.trim();
-      if (!value) return alert("ایمیل یا شماره را وارد کنید");
+  const input = document.getElementById("contact");
+  const button = document.getElementById("submit");
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^(\+98|0)?9\d{9}$/;
+
+  input.addEventListener("input", () => {
+    const v = input.value.trim();
+
+    if (/^\d|\+/.test(v)) {
+      input.inputMode = "tel";
+      input.autocomplete = "tel";
+      input.maxLength = 15;
+    } else {
+      input.inputMode = "email";
+      input.autocomplete = "email";
+      input.maxLength = 100;
+    }
+  });
+
+  button.onclick = async () => {
+    const value = input.value.trim();
+
+    if (!value) {
+      alert("ایمیل یا شماره موبایل را وارد کنید");
+      return;
+    }
+
+    const isEmail = emailRegex.test(value);
+    const isPhone = phoneRegex.test(value);
+
+    if (!isEmail && !isPhone) {
+      alert("ایمیل یا شماره موبایل معتبر نیست");
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "در حال ارسال...";
+
+    try {
       const res = await fetch("/api/lead", {
         method: "POST",
-        body: JSON.stringify({ value }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          value,
+          type: isEmail ? "email" : "phone",
+        }),
       });
 
-      alert(res.ok ? "ثبت شد 🚀" : "لطفاً کمی بعد تلاش کنید");
-    };
-  </script>
+      alert(res.ok ? "ثبت شد 🚀" : "خطا، دوباره تلاش کنید");
+      if (res.ok) input.value = "";
+    } catch {
+      alert("مشکل ارتباط با سرور");
+    } finally {
+      button.disabled = false;
+      button.textContent = "خبرم کن";
+    }
+  };
+</script>
+
 </body>
 </html>
