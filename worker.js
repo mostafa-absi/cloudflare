@@ -9,10 +9,12 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // API endpoint
     if (url.pathname === "/api/lead" && request.method === "POST") {
       const { value } = await request.json();
       if (!value) return new Response("Bad Request", { status: 400 });
 
+      // ارسال به تلگرام
       await fetch(`https://api.telegram.org/bot${env.TELEGRAM_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -22,6 +24,7 @@ export default {
       return new Response("OK");
     }
 
+    // فایل‌های استاتیک
     const assetPath = ASSETS[url.pathname];
     if (assetPath) {
       const file = await fetch(new URL(assetPath, import.meta.url));
