@@ -1,8 +1,6 @@
 name = "cloudflare"
-account_id = "43f94cc4f3beadab0c778fdbb690feb0"
-workers_dev = true
+main = "worker.js"
 compatibility_date = "2025-12-24"
 
-main = "worker.js"  
-[site]
-bucket = "./site"   # فولدر سایت استاتیک
+[assets]
+directory = "./public"
