@@ -1,0 +1,15 @@
+name = "jibeman"
+type = "javascript"
+
+account_id = "YOUR_ACCOUNT_ID"
+workers_dev = true
+compatibility_date = "2025-12-24"
+
+# برای Secret Variable، فقط binding تعریف می‌کنیم، مقدار روی Cloudflare هست
+[vars] 
+# خالی بمونه یا فقط متغیر عمومی اگر خواستی اضافه کنی
+
+[[kv_namespaces]]
+binding = "ASSETS"
+# اگر از KV برای Assets استفاده می‌خوای، آیدی اینجا بذار، 
+# ولی اگر فقط site/ داری لازم نیست

@@ -1,0 +1,7 @@
+{
+  "name": "jibeman",
+  "private": true,
+  "devDependencies": {
+    "@cloudflare/wrangler": "^3.0.0"
+  }
+}
