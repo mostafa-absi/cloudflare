@@ -1,4 +1,4 @@
-name = "jibeman"
+name = "cloudflare"
 main = "worker.js"            # فایل Worker اصلی
 compatibility_date = "2025-12-24"
 account_id = "43f94cc4f3beadab0c778fdbb690feb0"
