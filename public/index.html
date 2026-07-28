@@ -1,381 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>جیب من | مدیریت مالی شخصی</title>
-
-  <!-- SEO -->
-  <meta name="description" content="جیب من؛ اپلیکیشن مدیریت مالی شخصی برای ثبت درآمد و هزینه، گزارش هوشمند و کنترل کامل پولت. به‌زودی منتشر می‌شود." />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0d6efd" />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="جیب من | مدیریت مالی شخصی" />
-  <meta property="og:description" content="درآمد و هزینه‌هات رو ثبت کن و کنترل کامل پولت رو به دست بگیر. به‌زودی…" />
-  <meta property="og:image" content="pics/app-preview.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Favicon -->
-  <link rel="icon" href="pics/favicon.ico" type="image/x-icon" />
-
-  <!-- Preload font -->
-  <link rel="preload" as="font" href="fonts/Vazir.woff2" type="font/woff2" crossorigin />
-
-  <style>
-    @font-face {
-      font-family: "Vazirmatn";
-      src: url("fonts/Vazir.woff2") format("woff2");
-      font-weight: 400 900;
-      font-display: swap;
-    }
-
-    :root {
-      --blue: #0d6efd;
-      --blue-600: #0b5ed7;
-      --blue-050: #eef4ff;
-      --ink: #14233b;
-      --text: #1a1a1a;
-      --muted: #5f6f81;
-      --ok: #15803d;
-      --err: #dc2626;
-      --card: rgba(255, 255, 255, 0.72);
-      --ring: rgba(13, 110, 253, 0.18);
-      --shadow: 0 24px 60px -22px rgba(13, 60, 130, 0.35);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      min-height: 100%;
-      font-family: "Vazirmatn", system-ui, -apple-system, sans-serif;
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body {
-      position: relative;
-      min-height: 100dvh;
-      background:
-        radial-gradient(1100px 600px at 85% -10%, #e4eeff 0%, transparent 60%),
-        linear-gradient(135deg, #ffffff 0%, var(--blue-050) 45%, #dbe9ff 100%);
-      overflow-x: hidden;
-    }
-
-    /* decorative blobs */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(70px);
-      opacity: 0.55;
-      z-index: 0;
-      pointer-events: none;
-      animation: float 14s ease-in-out infinite;
-    }
-    .blob.a { width: 380px; height: 380px; top: -90px; left: -80px;
-      background: radial-gradient(circle, #8bb8ff, transparent 70%); }
-    .blob.b { width: 460px; height: 460px; bottom: -160px; right: -120px;
-      background: radial-gradient(circle, #b9d2ff, transparent 70%); animation-delay: -5s; }
-
-    /* layout */
-    .wrap {
-      position: relative;
-      z-index: 1;
-      max-width: 1180px;
-      margin-inline: auto;
-      padding: 22px clamp(16px, 4vw, 48px) 40px;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header.bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: clamp(12px, 4vh, 40px);
-    }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .brand img { height: clamp(40px, 4.5vw, 56px); width: auto; object-fit: contain; }
-    .brand span { font-size: clamp(1.15rem, 2vw, 1.45rem); font-weight: 900; color: var(--blue); }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: 0.78rem; font-weight: 700; color: var(--blue-600);
-      background: #fff; border: 1px solid #d7e6ff;
-      padding: 7px 13px; border-radius: 999px;
-      box-shadow: 0 6px 18px -10px var(--ring);
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue);
-      box-shadow: 0 0 0 0 var(--ring); animation: pulse 2s infinite; }
-
-    main {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      align-items: center;
-      gap: clamp(24px, 4vw, 56px);
-    }
-
-    /* content */
-    .content { max-width: 520px; animation: rise 0.7s cubic-bezier(.2,.7,.2,1) both; }
-
-    h1 {
-      font-size: clamp(1.9rem, 4vw, 2.7rem);
-      line-height: 1.35;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      margin-bottom: 14px;
-    }
-    h1 .hl {
-      background: linear-gradient(120deg, var(--blue), #4f9bff);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-
-    .lead {
-      font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-      line-height: 1.85; color: var(--muted); margin-bottom: 24px;
-    }
-
-    /* form */
-    .cta {
-      display: flex; gap: 10px; background: var(--card);
-      border: 1px solid #dbe7fb; border-radius: 16px; padding: 8px;
-      box-shadow: var(--shadow); backdrop-filter: blur(8px);
-    }
-    .cta input {
-      flex: 1; min-width: 0; padding: 13px 14px;
-      border: none; outline: none; background: transparent;
-      font-size: 0.95rem; font-family: inherit; color: var(--text);
-    }
-    .cta input::placeholder { color: #9aa9bd; }
-    .cta button {
-      padding: 13px 22px; border: none; border-radius: 11px; white-space: nowrap;
-      background: linear-gradient(180deg, var(--blue), var(--blue-600));
-      color: #fff; font-size: 0.95rem; font-weight: 800; cursor: pointer;
-      font-family: inherit; transition: transform .15s, box-shadow .15s, opacity .15s;
-      box-shadow: 0 12px 24px -12px var(--blue);
-    }
-    .cta button:hover:not(:disabled) { transform: translateY(-1px); }
-    .cta button:disabled { opacity: 0.7; cursor: default; }
-
-    .status { min-height: 20px; margin: 10px 4px 0; font-size: 0.85rem; font-weight: 700; }
-    .status.ok { color: var(--ok); }
-    .status.err { color: var(--err); }
-    .hint { display: flex; align-items: center; gap: 6px; margin: 14px 4px 0;
-      font-size: 0.8rem; color: var(--muted); }
-
-    /* feature chips */
-    .features { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
-    .chip {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; border: 1px solid #e3ecfb; border-radius: 12px;
-      padding: 10px 13px; font-size: 0.85rem; font-weight: 700; color: var(--ink);
-      box-shadow: 0 8px 20px -16px rgba(13,60,130,.5);
-    }
-    .chip svg { width: 18px; height: 18px; color: var(--blue); flex: none; }
-
-    /* visual */
-    .visual { display: flex; justify-content: center; align-items: center; position: relative;
-      animation: rise 0.9s cubic-bezier(.2,.7,.2,1) both; animation-delay: .08s; }
-
-    .phone {
-      position: relative; width: clamp(240px, 26vw, 320px); aspect-ratio: 9 / 19;
-      background: #0f1d33; border-radius: 38px; padding: 10px;
-      box-shadow: 0 40px 80px -30px rgba(13,40,90,.55), 0 0 0 1px rgba(255,255,255,.4) inset;
-      animation: floaty 7s ease-in-out infinite;
-    }
-    .phone::before {
-      content: ""; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-      width: 38%; height: 22px; background: #0f1d33; border-radius: 0 0 14px 14px; z-index: 2;
-    }
-    .screen {
-      width: 100%; height: 100%; border-radius: 29px; overflow: hidden;
-      background: linear-gradient(160deg, #eaf2ff, #cfe0ff);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    .float-card {
-      position: absolute; background: var(--card); backdrop-filter: blur(10px);
-      border: 1px solid #e3ecfb; border-radius: 14px; padding: 11px 14px;
-      box-shadow: var(--shadow); display: flex; align-items: center; gap: 10px;
-      font-weight: 800; color: var(--ink); white-space: nowrap;
-    }
-    .float-card small { display: block; font-size: 0.68rem; font-weight: 700; color: var(--muted); }
-    .float-card .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
-      background: var(--blue-050); color: var(--blue); flex: none; }
-    .float-card .ic svg { width: 18px; height: 18px; }
-    .fc-1 { top: 14%; left: -28px; animation: floaty 6s ease-in-out infinite; }
-    .fc-2 { bottom: 12%; right: -30px; animation: floaty 6s ease-in-out infinite reverse; }
-    .fc-2 .ic { background: #e7f7ee; color: var(--ok); }
-
-    /* animations */
-    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-    @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,30px); } }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--ring); } 70% { box-shadow: 0 0 0 9px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
-
-    @media (prefers-reduced-motion: reduce) {
-      .blob, .phone, .float-card, .dot, .content, .visual { animation: none !important; }
-    }
-
-    /* mobile */
-    @media (max-width: 900px) {
-      main { grid-template-columns: 1fr; text-align: center; gap: 36px; }
-      .content { max-width: 100%; }
-      .brand, .features { justify-content: center; }
-      .cta { flex-direction: column; }
-      .cta button { padding: 14px; }
-      .hint { justify-content: center; }
-      .visual { order: -1; }
-      .phone { width: clamp(210px, 60vw, 270px); }
-      .float-card { display: none; }
-      header.bar .badge { display: none; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>جیب من — مدیریت مالی هوشمند</title>
+<meta name="description" content="جیب‌من مانده حساب‌ها را خودکار از پیامک‌های بانکی می‌خواند و تعهدهای مالی را کنار آن می‌گذارد. آفلاین، رایگان، نسخه اندروید." />
+<meta name="theme-color" content="#f2f2f3" />
+<link rel="icon" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <div class="blob a"></div>
-  <div class="blob b"></div>
 
-  <div class="wrap">
-    <header class="bar">
-      <div class="brand">
-        <img src="pics/logo.svg" alt="جیب من" />
-        <span>جیب من</span>
+<nav class="nav">
+  <a class="nav-brand" href="#top">
+    <img src="assets/logo.png" alt="جیب من" />
+    <span>
+      <strong>جیب من</strong>
+      <small>مدیریت مالی هوشمند</small>
+    </span>
+  </a>
+  <a class="nav-link" href="#features">امکانات</a>
+  <a class="nav-link" href="#privacy">امنیت و حریم خصوصی</a>
+  <a class="bazaar-btn" href="#download">
+    <img src="assets/cafebazaar-logo.svg" alt="" />
+    دریافت از بازار
+  </a>
+</nav>
+
+<div class="wrap" id="top">
+
+  <section class="hero">
+    <div>
+      <h1>
+        <span class="big">تصمیم بهتر</span>
+        <span class="small">بدون حسابداری</span>
+      </h1>
+      <p class="lead">
+        پیامک‌های بانکی به‌صورت خودکار خوانده می‌شوند.<br />
+        <strong>موجودی و تعهدات مالی، تصویری واقعی از وضعیت شما را ارائه می‌دهند.</strong>
+      </p>
+
+      <div class="cta-row" id="download">
+        <a class="bazaar-badge" href="#download">
+          <img src="assets/cafebazaar-logo.svg" alt="کافه بازار" />
+          <span class="txt"><strong>دریافت اپلیکیشن</strong></span>
+        </a>
       </div>
-      <span class="badge"><span class="dot"></span> به‌زودی منتشر می‌شود</span>
-    </header>
+      <p class="meta"><span>آفلاین</span><span>|</span><span>نسخه اندروید</span><span>|</span><span>رایگان</span></p>
+    </div>
 
-    <main>
-      <section class="content">
-        <h1>مدیریت مالی شخصی،<br /><span class="hl">ساده و همیشه همراهت</span></h1>
-
-        <p class="lead">
-          درآمد و هزینه‌هات رو ثبت کن و کنترل کامل پولت رو به دست بگیر.
-          همین حالا ایمیل یا شماره‌ت رو وارد کن تا لحظه‌ی انتشار اپلیکیشن باخبر بشی.
-        </p>
-
-        <div class="cta">
-          <input
-            id="contact"
-            placeholder="ایمیل یا شماره موبایل"
-            inputmode="email"
-            autocomplete="email"
-            maxlength="100"
-            aria-label="ایمیل یا شماره موبایل"
-          />
-          <button id="submit">خبرم کن</button>
-        </div>
-        <p id="status" class="status" role="status" aria-live="polite"></p>
-
-        <p class="hint">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-          بدون اسپم — فقط خبر انتشار اپ.
-        </p>
-
-        <div class="features">
-          <span class="chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M16 12h.01M2 10h20"/></svg>
-            ثبت سریع درآمد و هزینه
-          </span>
-          <span class="chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
-            گزارش و نمودار هوشمند
-          </span>
-          <span class="chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-            یادآور و بودجه‌بندی
-          </span>
-        </div>
-      </section>
-
-      <section class="visual" aria-hidden="true">
-        <div class="phone">
-          <div class="screen">
-            <img src="pics/app-preview.png" alt="اپلیکیشن جیب من"
-                 onerror="this.style.display='none'" />
+    <div class="phone-col">
+      <div class="phone-stack">
+        <div class="phone-float">
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="screen">
+              <img src="assets/screen-home.png" alt="صفحه خانه — وضعیت مالی" />
+              <img src="assets/screen-accounts.png" alt="صفحه حساب‌ها — منابع مالی" />
+              <img src="assets/screen-services.png" alt="صفحه خدمات — تعهدات و دارایی" />
+              <img src="assets/screen-transactions.png" alt="صفحه تراکنش‌ها" />
+            </div>
           </div>
         </div>
-
-        <div class="float-card fc-1">
-          <span class="ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          </span>
-          <div>درآمد ثبت شد<small>۲٬۵۰۰٬۰۰۰ تومان</small></div>
+        <div class="captions">
+          <span>وضعیت مالی — مبلغ آزاد برای خرج</span>
+          <span>حساب‌ها — همه منابع مالی یک‌جا</span>
+          <span>خدمات — چک، وام و قسط، بدهی و طلب</span>
+          <span>تراکنش‌ها — دریافتی و پرداختی هر ماه</span>
         </div>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </section>
 
-        <div class="float-card fc-2">
-          <span class="ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
-          </span>
-          <div>موجودی کیف<small>۸٬۴۲۰٬۰۰۰ تومان</small></div>
-        </div>
-      </section>
-    </main>
-  </div>
+  <section class="features" id="features">
+    <h2>امکاناتی برای تصمیم‌گیری بهتر</h2>
+    <div class="cells">
+      <div class="cell">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"></path></svg>
+        <h3>ثبت خودکار</h3>
+        <p>مانده حساب‌ها از پیامک‌های بانکی خوانده می‌شود بدون وارد کردن هیچ عددی</p>
+      </div>
+      <div class="cell">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1"></rect><path d="M8 12h8M8 16h5"></path></svg>
+        <h3>مدیریت تعهدات</h3>
+        <p>چک، قسط، وام، اجاره، بدهی و طلب — همه در یک فهرست با تاریخ سررسید.</p>
+      </div>
+      <div class="cell">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.2 15.9A10 10 0 1 1 8.1 2.8"></path><path d="M22 12A10 10 0 0 0 12 2v10h10Z"></path></svg>
+        <h3>تصویر شفاف مالی</h3>
+        <p>یک نگاه کوتاه به کل وضعیت باعث تصمیم‌گیری سریع‌تر می‌شود</p>
+      </div>
+      <div class="cell">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+        <h3>حریم خصوصی</h3>
+        <p>داده‌ها روی دستگاه خودت می‌ماند. نه حسابی می‌سازی، نه چیزی ارسال می‌شود.</p>
+      </div>
+      <div class="cell">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.96A6 6 0 0 0 6.2 9.5 4.25 4.25 0 0 0 7 19"></path><path d="M12 12v7"></path><path d="m9 16 3 3 3-3"></path></svg>
+        <h3>بدون نیاز به اینترنت</h3>
+        <p>کارکرد کامل بدون اینترنت. همه‌جا کار می‌کند، حتی بی‌آنتن.</p>
+      </div>
+    </div>
+  </section>
 
-  <script>
-    const input = document.getElementById("contact");
-    const button = document.getElementById("submit");
-    const statusEl = document.getElementById("status");
+  <section class="privacy" id="privacy">
+    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-700)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path><path d="M12 15v2"></path></svg>
+    <div class="copy">
+      <h3>اطلاعات شما، فقط برای شما</h3>
+      <p>جیب‌من به حریم خصوصی شما احترام می‌گذارد. داده‌ها از دستگاه خارج نمی‌شوند و برای استفاده نیازی به ساخت حساب کاربری نیست.</p>
+    </div>
+    <a class="bazaar-btn lg" href="#download">
+      <img src="assets/cafebazaar-logo.svg" alt="" />
+      دریافت از بازار
+    </a>
+  </section>
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^(\+98|0)?9\d{9}$/;
+  <footer class="foot">
+    <span class="brand"><img src="assets/logo.png" alt="" />جیب من — مدیریت مالی هوشمند</span>
+    <span>ساخته‌شده برای ایران</span>
+    <span>بدون نیاز به اینترنت</span>
+    <span>بدون ثبت دستی تراکنش</span>
+    <span>حریم خصوصی در اولویت</span>
+  </footer>
+</div>
 
-    function setStatus(msg, kind) {
-      statusEl.textContent = msg || "";
-      statusEl.className = "status" + (kind ? " " + kind : "");
-    }
-
-    input.addEventListener("input", () => {
-      const v = input.value.trim();
-      if (/^[\d+]/.test(v)) {
-        input.inputMode = "tel"; input.autocomplete = "tel"; input.maxLength = 15;
-      } else {
-        input.inputMode = "email"; input.autocomplete = "email"; input.maxLength = 100;
-      }
-      if (statusEl.textContent) setStatus("");
-    });
-
-    input.addEventListener("keydown", (e) => { if (e.key === "Enter") submit(); });
-    button.addEventListener("click", submit);
-
-    async function submit() {
-      const value = input.value.trim();
-      if (!value) { setStatus("ایمیل یا شماره موبایل را وارد کنید.", "err"); input.focus(); return; }
-
-      const isEmail = emailRegex.test(value);
-      const isPhone = phoneRegex.test(value);
-      if (!isEmail && !isPhone) { setStatus("ایمیل یا شماره موبایل معتبر نیست.", "err"); return; }
-
-      button.disabled = true;
-      const label = button.textContent;
-      button.textContent = "در حال ارسال…";
-      setStatus("");
-
-      try {
-        const res = await fetch("/api/lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ value, type: isEmail ? "email" : "phone" }),
-        });
-        if (res.ok) {
-          setStatus("ثبت شد 🚀 لحظه‌ی انتشار بهت خبر می‌دیم.", "ok");
-          input.value = "";
-        } else {
-          setStatus("خطایی پیش آمد، دوباره تلاش کن.", "err");
-        }
-      } catch {
-        setStatus("مشکل در ارتباط با سرور.", "err");
-      } finally {
-        button.disabled = false;
-        button.textContent = label;
-      }
-    }
-  </script>
+<script src="app.js"></script>
 </body>
 </html>

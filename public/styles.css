@@ -1,0 +1,152 @@
+/* Jibe-Man landing — Industry design tokens + page styles */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap');
+
+:root{
+  --color-bg:#f2f2f3;
+  --color-text:#1d1f20;
+  --color-accent:#416180;
+  --color-accent-700:#416180;
+  --color-divider:color-mix(in srgb,#1d1f20 16%,transparent);
+  --brand:#0000ff;
+  --bazaar:#0ba05a;
+  --bazaar-dark:#0a8b4e;
+  --shadow-sm:0 1px 2px color-mix(in srgb,#2b2b2d 14%,transparent);
+  --shadow-md:0 3px 10px color-mix(in srgb,#2b2b2d 16%,transparent);
+  --shadow-lg:0 12px 32px color-mix(in srgb,#2b2b2d 22%,transparent);
+  --muted:color-mix(in srgb,var(--color-text) 78%,transparent);
+  --faint:color-mix(in srgb,var(--color-text) 60%,transparent);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--color-bg);color:var(--color-text);
+  font-family:"Vazirmatn",system-ui,sans-serif;font-size:15px;line-height:1.55;text-wrap:pretty}
+img{display:block;max-width:100%}
+a{color:var(--color-accent-700);text-decoration:none}
+a:hover{color:var(--color-accent)}
+:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+::selection{background:color-mix(in srgb,var(--color-accent) 30%,transparent)}
+
+/* header */
+.nav{position:sticky;top:0;z-index:20;display:flex;align-items:center;flex-wrap:wrap;gap:14px 28px;
+  padding:18px max(24px,calc((100% - 1240px)/2 + 24px));
+  border-bottom:1px solid var(--color-divider);
+  background:color-mix(in srgb,var(--color-bg) 84%,transparent);backdrop-filter:blur(10px)}
+.nav-brand{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-brand img{width:30px}
+.nav-brand span{display:flex;flex-direction:column;line-height:1.15}
+.nav-brand strong{font-size:18px;font-weight:800;color:var(--color-text)}
+.nav-brand small{font-size:11px;color:color-mix(in srgb,var(--color-text) 55%,transparent)}
+.nav-link{font-size:14px}
+
+/* bazaar buttons */
+.bazaar-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--bazaar);border:1px solid var(--bazaar);color:#fff;font-weight:700;
+  border-radius:15px;padding:8px 16px;font-size:14px;cursor:pointer;
+  transition:background .15s ease,border-color .15s ease}
+.bazaar-btn:hover{background:var(--bazaar-dark);border-color:var(--bazaar-dark);color:#fff}
+.bazaar-btn img{height:16px;width:auto;filter:brightness(0) invert(1)}
+.bazaar-btn.lg{padding:13px 22px;font-size:15px;gap:12px}
+.bazaar-btn.lg img{height:22px}
+
+.bazaar-badge{display:inline-flex;align-items:center;gap:16px;padding:12px 22px 12px 18px;
+  color:var(--color-text);background:#fff;border:1px solid var(--bazaar);border-radius:15px;
+  box-shadow:var(--shadow-sm);transition:background .15s ease,box-shadow .15s ease}
+.bazaar-badge:hover{background:#f2fbf5;box-shadow:var(--shadow-md);color:var(--color-text)}
+.bazaar-badge img{height:34px;width:auto}
+.bazaar-badge .txt{display:flex;flex-direction:column;align-items:flex-start;line-height:1.35;
+  border-right:1px solid color-mix(in srgb,var(--color-text) 14%,transparent);padding-right:16px}
+.bazaar-badge .txt strong{font-size:16px;font-weight:700}
+
+/* layout */
+.wrap{max-width:1240px;margin:0 auto;padding:0 max(24px,4vw)}
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));
+  gap:48px clamp(32px,6vw,96px);align-items:center;padding:clamp(48px,7vw,96px) 0 clamp(40px,6vw,80px)}
+.hero h1{margin:22px 0 0;line-height:1.28;font-weight:800;letter-spacing:-.01em}
+.hero h1 .big{font-size:clamp(40px,6vw,70px)}
+.hero h1 .small{display:block;font-size:clamp(26px,3.4vw,40px);color:var(--brand)}
+.hero .lead{font-size:17px;line-height:1.85;max-width:46ch;margin:24px 0 0;color:var(--muted)}
+.cta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:32px}
+.meta{display:flex;align-items:center;gap:12px;font-size:13px;margin:16px 0 0;color:var(--faint)}
+
+/* phone */
+.phone-col{position:relative;display:flex;justify-content:center}
+.phone-stack{position:relative;display:flex;flex-direction:column;align-items:center;gap:18px}
+.phone-float{width:min(310px,68vw);animation:jm-float 7s ease-in-out infinite}
+.phone{position:relative;aspect-ratio:709/1464;padding:8px;border-radius:30px;
+  border:1.5px solid color-mix(in srgb,var(--color-text) 70%,transparent);
+  background:var(--color-bg);box-shadow:var(--shadow-lg)}
+.phone .notch{position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:34%;height:16px;z-index:3;
+  border:1.5px solid color-mix(in srgb,var(--color-text) 70%,transparent);border-top:0;
+  border-radius:0 0 10px 10px;background:var(--color-bg)}
+.phone .screen{position:relative;width:100%;height:100%;border-radius:23px;overflow:hidden;background:#fff}
+.phone .screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.phone .screen img:nth-child(1){opacity:1}
+.phone .screen img:nth-child(2){animation:jm-screen-mid 20s cubic-bezier(.4,0,.2,1) 5s infinite}
+.phone .screen img:nth-child(3){animation:jm-screen-mid 20s cubic-bezier(.4,0,.2,1) 10s infinite}
+.phone .screen img:nth-child(4){animation:jm-screen-last 20s cubic-bezier(.4,0,.2,1) 15s infinite}
+.captions{position:relative;height:22px;width:100%;text-align:center}
+.captions span{position:absolute;inset:0;font-size:13px;letter-spacing:.02em;opacity:0;
+  color:color-mix(in srgb,var(--color-text) 65%,transparent);animation:jm-label 20s linear infinite}
+.captions span:nth-child(2){animation-delay:5s}
+.captions span:nth-child(3){animation-delay:10s}
+.captions span:nth-child(4){animation-delay:15s}
+.dots{display:flex;align-items:center;gap:7px}
+.dots i{display:block;height:7px;width:7px;border-radius:4px;
+  background:color-mix(in srgb,var(--color-text) 22%,transparent);animation:jm-dot 20s linear infinite}
+.dots i:nth-child(2){animation-delay:5s}
+.dots i:nth-child(3){animation-delay:10s}
+.dots i:nth-child(4){animation-delay:15s}
+
+/* features */
+.features{padding:clamp(40px,6vw,80px) 0}
+.features h2{font-size:clamp(24px,3vw,34px);font-weight:800;line-height:1.4;margin:0;max-width:30ch}
+.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));
+  gap:clamp(28px,3.4vw,46px);margin-top:44px}
+.cell{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:14px;align-items:center;
+  padding:24px 24px 24px 0}
+.cell h3{font-size:19px;font-weight:700;margin:0}
+.cell p{grid-column:1/-1;font-size:15px;line-height:1.85;margin:14px 0 0;color:var(--muted)}
+
+/* privacy */
+.privacy{display:flex;align-items:center;gap:clamp(20px,3vw,40px);flex-wrap:wrap;
+  padding:clamp(24px,3vw,36px);margin-bottom:clamp(40px,6vw,72px)}
+.privacy>svg{flex:none}
+.privacy .copy{flex:1;min-width:260px}
+.privacy h3{font-size:clamp(20px,2.3vw,26px);font-weight:800;margin:0}
+.privacy p{font-size:15px;line-height:1.85;margin:14px 0 0;color:var(--muted)}
+
+/* footer */
+.foot{border-top:1px solid var(--color-divider);padding:28px 0 40px;display:flex;flex-wrap:wrap;
+  align-items:center;gap:14px 28px;font-size:13px;color:color-mix(in srgb,var(--color-text) 70%,transparent)}
+.foot .brand{display:flex;align-items:center;gap:8px}
+.foot .brand img{width:18px}
+
+/* animation — screen 1 is the static base layer; 2-4 fade in above it */
+@keyframes jm-screen-mid{
+  0%{opacity:0;transform:translateY(14px)}
+  3%{opacity:1;transform:translateY(0)}
+  35%{opacity:1;transform:translateY(0)}
+  37%{opacity:0;transform:translateY(0)}
+  100%{opacity:0;transform:translateY(0)}
+}
+@keyframes jm-screen-last{
+  0%{opacity:0;transform:translateY(14px)}
+  3%{opacity:1;transform:translateY(0)}
+  25%{opacity:1;transform:translateY(0)}
+  27%{opacity:0;transform:translateY(-10px)}
+  100%{opacity:0;transform:translateY(-10px)}
+}
+@keyframes jm-label{0%,27%,100%{opacity:0}4%,23%{opacity:1}}
+@keyframes jm-dot{
+  0%,27%,100%{background:color-mix(in srgb,var(--color-text) 22%,transparent);width:7px}
+  4%,23%{background:var(--color-accent);width:22px}
+}
+@keyframes jm-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .phone-float,.phone .screen img,.captions span,.dots i{animation:none!important}
+  .captions span{opacity:0}
+  .captions span:first-child{opacity:1}
+  .dots i:first-child{background:var(--color-accent);width:22px}
+}
