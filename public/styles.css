@@ -57,6 +57,11 @@ a:hover{color:var(--color-accent)}
 .bazaar-badge .txt{display:flex;flex-direction:column;align-items:flex-start;line-height:1.35;
   border-right:1px solid color-mix(in srgb,var(--color-text) 14%,transparent);padding-right:16px}
 .bazaar-badge .txt strong{font-size:16px;font-weight:700}
+.cta-row .bazaar-badge{width:280px;max-width:100%;height:60px;flex:0 0 auto;justify-content:center;white-space:nowrap}
+.cta-row .bazaar-badge img{width:78px;height:34px;object-fit:contain;flex-shrink:0}
+.myket-badge{border-color:#0091ea}
+.myket-badge:hover{background:#f0f9ff}
+
 
 /* layout */
 .wrap{max-width:1240px;margin:0 auto;padding:0 max(24px,4vw)}
@@ -79,7 +84,7 @@ a:hover{color:var(--color-accent)}
     color-mix(in srgb,var(--color-accent) 12%,transparent) 62%,
     transparent 80%)}
 .phone-stack{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:18px}
-.phone-float{width:min(310px,68vw);animation:jm-float 7s ease-in-out infinite}
+.phone-float{width:min(310px,68vw);animation:jm-float 9s ease-in-out infinite}
 .phone{position:relative;padding:8px;border-radius:32px;
   border:4px solid color-mix(in srgb,var(--color-text) 70%,transparent);
   background:var(--color-neutral-800);box-shadow:var(--shadow-lg)}
@@ -87,23 +92,18 @@ a:hover{color:var(--color-accent)}
   border:1.5px solid color-mix(in srgb,var(--color-text) 70%,transparent);border-top:0;
   border-radius:0 0 10px 10px;background:var(--color-neutral-800);border-color:var(--color-neutral-800)}
 .phone .screen{position:relative;aspect-ratio:709/1464;border-radius:22px;overflow:hidden;background:#fff}
-.phone .screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:0}
-.phone .screen img:nth-child(1){opacity:1}
-.phone .screen img:nth-child(2){animation:jm-screen-mid 20s cubic-bezier(.4,0,.2,1) 5s infinite}
-.phone .screen img:nth-child(3){animation:jm-screen-mid 20s cubic-bezier(.4,0,.2,1) 10s infinite}
-.phone .screen img:nth-child(4){animation:jm-screen-last 20s cubic-bezier(.4,0,.2,1) 15s infinite}
-.captions{position:relative;height:22px;width:100%;text-align:center}
+/* One 24-second timeline: 6 seconds per slide, including a 720ms crossfade. */
+.phone .screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:0;
+  animation:jm-slide 24s linear infinite;will-change:opacity}
+.captions{position:relative;min-height:42px;width:100%;text-align:center}
 .captions span{position:absolute;inset:0;font-size:13px;letter-spacing:.02em;opacity:0;
-  color:color-mix(in srgb,var(--color-text) 65%,transparent);animation:jm-label 20s linear infinite}
-.captions span:nth-child(2){animation-delay:5s}
-.captions span:nth-child(3){animation-delay:10s}
-.captions span:nth-child(4){animation-delay:15s}
+  color:color-mix(in srgb,var(--color-text) 65%,transparent);animation:jm-slide 24s linear infinite}
 .dots{display:flex;align-items:center;gap:7px}
-.dots i{display:block;height:7px;width:7px;border-radius:4px;
-  background:color-mix(in srgb,var(--color-text) 22%,transparent);animation:jm-dot 20s linear infinite}
-.dots i:nth-child(2){animation-delay:5s}
-.dots i:nth-child(3){animation-delay:10s}
-.dots i:nth-child(4){animation-delay:15s}
+.dots i{display:block;height:7px;width:22px;border-radius:4px;transform:scaleX(.32);
+  background:color-mix(in srgb,var(--color-text) 22%,transparent);animation:jm-dot 24s linear infinite}
+.phone .screen img:nth-child(2),.captions span:nth-child(2),.dots i:nth-child(2){animation-delay:-18s}
+.phone .screen img:nth-child(3),.captions span:nth-child(3),.dots i:nth-child(3){animation-delay:-12s}
+.phone .screen img:nth-child(4),.captions span:nth-child(4),.dots i:nth-child(4){animation-delay:-6s}
 
 /* features */
 .features{padding:clamp(40px,6vw,80px) 0}
@@ -129,32 +129,22 @@ a:hover{color:var(--color-accent)}
 .foot .brand{display:flex;align-items:center;gap:8px}
 .foot .brand img{width:18px}
 
-/* animation — screen 1 is the static base layer; 2-4 fade in above it */
-@keyframes jm-screen-mid{
-  0%{opacity:0;transform:translateY(14px)}
-  3%{opacity:1;transform:translateY(0)}
-  35%{opacity:1;transform:translateY(0)}
-  37%{opacity:0;transform:translateY(0)}
-  100%{opacity:0;transform:translateY(0)}
+/* Matching fade intervals also keep the last-to-first transition seamless. */
+@keyframes jm-slide{
+  0%,22%{opacity:1;animation-timing-function:ease-in-out}
+  25%,97%{opacity:0;animation-timing-function:ease-in-out}
+  100%{opacity:1}
 }
-@keyframes jm-screen-last{
-  0%{opacity:0;transform:translateY(14px)}
-  3%{opacity:1;transform:translateY(0)}
-  25%{opacity:1;transform:translateY(0)}
-  27%{opacity:0;transform:translateY(-10px)}
-  100%{opacity:0;transform:translateY(-10px)}
-}
-@keyframes jm-label{0%,27%,100%{opacity:0}4%,23%{opacity:1}}
 @keyframes jm-dot{
-  0%,27%,100%{background:color-mix(in srgb,var(--color-text) 22%,transparent);width:7px}
-  4%,23%{background:var(--color-accent);width:22px}
+  0%,22%,100%{background:var(--color-accent);transform:scaleX(1);animation-timing-function:ease-in-out}
+  25%,97%{background:color-mix(in srgb,var(--color-text) 22%,transparent);transform:scaleX(.32);animation-timing-function:ease-in-out}
 }
-@keyframes jm-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes jm-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .phone-float,.phone .screen img,.captions span,.dots i{animation:none!important}
-  .captions span{opacity:0}
-  .captions span:first-child{opacity:1}
-  .dots i:first-child{background:var(--color-accent);width:22px}
+  .phone .screen img{will-change:auto}
+  .phone .screen img:first-child,.captions span:first-child{opacity:1}
+  .dots i:first-child{background:var(--color-accent);transform:scaleX(1)}
 }
