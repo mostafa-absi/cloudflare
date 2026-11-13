@@ -9,6 +9,8 @@
 <link rel="icon" href="assets/logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="stylesheet" href="styles.css?v=smooth-slides" />
+<link rel="preload" as="image" href="assets/screen-home.png">
+<link rel="stylesheet" href="slider-fix.css?v=1">
 </head>
 <body>
 
@@ -55,7 +57,7 @@
           <div class="phone">
             <div class="notch"></div>
             <div class="screen">
-              <img src="assets/screen-home.png" alt="صفحه خانه — وضعیت مالی" />
+              <img src="assets/screen-home.png" fetchpriority="high" loading="eager" alt="صفحه خانه — وضعیت مالی" />
               <img src="assets/screen-accounts.png" alt="صفحه حساب‌ها — منابع مالی" />
               <img src="assets/screen-services.png" alt="صفحه خدمات — تعهدات و دارایی" />
               <img src="assets/screen-transactions.png" alt="صفحه تراکنش‌ها" />
@@ -119,5 +121,6 @@
 </div>
 
 <script src="app.js"></script>
+<script src="slider-fix.js?v=1"></script>
 </body>
 </html>

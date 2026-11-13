@@ -1,0 +1,14 @@
+/* Only show decoded images. Keep the outgoing image opaque below the fade. */
+.phone .screen img,.captions span,.dots i{animation:none!important}
+.phone .screen img{opacity:0;will-change:auto;transition:opacity .7s ease;z-index:0}
+.phone .screen img:first-child,.captions span:first-child{opacity:1}
+.slides-managed .screen img,.slides-managed .captions span{opacity:0}
+.slides-managed .screen img.is-previous{opacity:1;z-index:1;transition:none}
+.slides-managed .screen img.is-current{opacity:1;z-index:2}
+.captions span{transition:opacity .35s ease}
+.slides-managed .captions span.is-current{opacity:1}
+.dots i{background:color-mix(in srgb,var(--color-text) 22%,transparent);transform:scaleX(.32);transition:transform .35s ease,background .35s ease}
+.dots i.is-current{background:var(--color-accent);transform:scaleX(1)}
+.slide-status{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:25px;font-size:13px;line-height:2;color:var(--muted);background:#f2f2f3}
+.slide-status[hidden]{display:none}
+@media(prefers-reduced-motion:reduce){.phone .screen img,.captions span,.dots i{transition:none}}
